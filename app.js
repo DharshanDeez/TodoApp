@@ -6,10 +6,29 @@ document.addEventListener('DOMContentLoaded', () => {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const itemsLeft = document.getElementById('items-left');
     const clearCompleted = document.getElementById('clear-completed');
+    const themeToggle = document.getElementById('theme-toggle');
     
     // State
     let todos = JSON.parse(localStorage.getItem('todos')) || [];
     let currentFilter = 'all';
+    let darkMode = localStorage.getItem('darkMode') === 'true';
+
+    // Apply initial theme
+    if (darkMode) {
+        document.body.classList.add('dark-mode');
+        themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+    }
+
+    // Toggle theme function
+    const toggleTheme = () => {
+        darkMode = !darkMode;
+        document.body.classList.toggle('dark-mode', darkMode);
+        themeToggle.innerHTML = darkMode ? '<i class="fas fa-sun"></i>' : '<i class="fas fa-moon"></i>';
+        localStorage.setItem('darkMode', darkMode);
+    };
+
+    // Theme toggle event listener
+    themeToggle.addEventListener('click', toggleTheme);
 
     // Render todos based on current filter
     const renderTodos = () => {
